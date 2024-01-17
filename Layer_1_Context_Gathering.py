@@ -110,7 +110,7 @@ async def process_layer(bot_info: UserInfo, message_event: MessageEvent):
         for i in range(0, len(message.files)):
             if "pdf" in message.files[i].file_type:
                 message.files[i].file_data = await get_pdf_text(message.files[i].url, bot_info.platform)
-            elif "txt" in message.files[i].file_type:
+            elif "text" in message.files[i].file_type:
                 message.files[i].file_data = await get_txt_text(message.files[i].url, bot_info.platform)
             elif "image" in message.files[i].file_type:
                 file_data = await get_image_data(message.files[i].url, bot_info.platform)
@@ -122,7 +122,7 @@ async def process_layer(bot_info: UserInfo, message_event: MessageEvent):
     for file in message_event.files:
         if "pdf" in file.file_type:
             file.file_data = await get_pdf_text(file.url, bot_info.platform)
-        elif "txt" in file.file_type:
+        elif "text" in file.file_type:
             file.file_data = await get_txt_text(file.url, bot_info.platform)
         elif "image" in file.file_type:
             file_data = await get_image_data(file.url, bot_info.platform)
