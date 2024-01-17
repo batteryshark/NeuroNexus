@@ -1,7 +1,7 @@
 # Management of Local Data and Caches
 import os
 import json
-
+from dotenv import load_dotenv
 from BotData import UserInfo
 
 BASE_PATH = os.path.expanduser("~/.chatbot/")
@@ -18,7 +18,6 @@ if not os.path.exists(ENV_PATH):
     with open(ENV_PATH, "w") as f:
         f.write("")
 
-
-
-
+def load_local_data():
+    load_dotenv(ENV_PATH)
 

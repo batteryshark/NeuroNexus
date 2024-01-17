@@ -98,7 +98,7 @@ def get_user_info(bot: UserInfo, user_id: str) -> UserInfo:
     user_info.real_name = user.global_name
     user_info.title = "Discord User"
     user_info.is_bot = user.bot
-    UserProfile.add_user_info_to_cache(user_info)
+    UserProfile.add_userinfo_to_cache(user_info)
     return user_info
 
 async def send_message(bot: UserInfo, message: Message):

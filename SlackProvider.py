@@ -9,6 +9,11 @@ import asyncio
 import threading
 import UserProfile
 
+# Check for slack token and if not present, call localdata to load it
+if not os.environ.get("SLACK_BOT_TOKEN"):
+    import LocalData
+    LocalData.load_local_data()
+
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 
 # Function to start and run the event loop
@@ -100,7 +105,7 @@ def get_user_info(bot: UserInfo, user_id: str) -> UserInfo:
     user_info.team = uinfo['team_id']
     user_info.is_bot = uinfo['is_bot']
     user_info.status = uinfo['profile']['status_text']
-    UserProfile.add_profile_to_userinfo_cache(user_info)
+    UserProfile.add_userinfo_to_cache(user_info)
     return user_info
 
 

@@ -72,6 +72,8 @@ async def update_notes_thread(user_info, message, response):
 
         if notes_response != '[]':
             try:
+                if "```json" in notes_response:
+                    notes_response = notes_response.replace("```json", "").replace("```", "")
                 new_notes = json.loads(notes_response)
                 # Process and break if valid response
                 for note in new_notes:

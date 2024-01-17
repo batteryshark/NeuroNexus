@@ -115,25 +115,7 @@ class VectorLexicon:
         with open(filepath, 'rb') as file:
             self.db, self.vectorizer, self.index, self.alias_terms, self.terms_index = pickle.load(file)    
 
-
 def new_test():
-    # Example usage
-    vectordb = VectorLexicon()
-    vectordb.add_term("Security Assessment", "A formalized design review and code review of a new change to a product or service for security flaws.")
-    vectordb.add_term('CyberSecurity','the state of being protected against the criminal or unauthorized use of electronic data, or the measures taken to achieve this.')
-    vectordb.add_term("Security Assurance", "A function of a security organization tasked with identifying bugs and potential design flaws in various products and services before they are shipped.",references=['CyberSecurity'])
-    vectordb.add_term("Severity Assessment", "A GRC focused assessment of a particular bug to determine its impact and potential severity to guide leadership in decision making for risk management plan.")
-    vectordb.add_term("WOW", "Windows on Windows, an emulation compatibility architecture for Windows NT")
-    vectordb.add_alias("WOW64", "WOW")
-    vectordb.add_alias("SA","Security Assessment")
-    vectordb.add_alias("SA","Security Assurance")
-    vectordb.add_alias("SA","Severity Assessment")
-
-    # Enrich a prompt with the option for user clarification
-    test_prompt = "We will conduct an SA and pentest using WOW64"
-    print("Lexicon Test Prompt: %s" % test_prompt)
-    enriched_prompt = vectordb.enrich_prompt(test_prompt, user_clarification=True)
-    print(enriched_prompt)    
-
+    pass
 if __name__ == "__main__":
     new_test()
