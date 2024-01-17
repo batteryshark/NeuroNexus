@@ -1,0 +1,7 @@
+python-dotenv
+discord.py
+aiohttp
+slack-bolt
+emoji
+pytesseract
+openai
