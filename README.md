@@ -50,6 +50,7 @@ To continue a conversation with the bot, simply reply to the bot's message, or, 
 
 
 ## TODO
+
 - Reaction feedback support
 - Interactive elements (e.g. block-kit, discord.ui) to enrich responses
 - Manual specification of a separate conversation/thread id to give the bot additional grounding.

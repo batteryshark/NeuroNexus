@@ -10,22 +10,40 @@ import logging
 from datetime import datetime
 import os
 
-async def get_pdf_text(url_path):
+async def get_pdf_text(url_path, platform='discord'):
     async with aiohttp.ClientSession() as session:
-        async with session.get(url_path) as response:
-            f = await response.read()
-            pdfReader = PyPDF2.PdfFileReader(f)
-            # Get All Pages of Text and return
-            text = ""
-            for page in pdfReader.pages:
-                text += page.extractText()
-            return text
+        if platform == 'slack':
+            async with session.get(url_path, headers={"Authorization": f"Bearer {os.environ.get('SLACK_BOT_TOKEN')}"}) as response:
+                f = await response.read()
+                pdfReader = PyPDF2.PdfFileReader(f)
+                # Get All Pages of Text and return
+                text = ""
+                for page in pdfReader.pages:
+                    text += page.extractText()
+                return text
+        else:
+            async with session.get(url_path) as response:
+                f = await response.read()
+                pdfReader = PyPDF2.PdfFileReader(f)
+                # Get All Pages of Text and return
+                text = ""
+                for page in pdfReader.pages:
+                    text += page.extractText()
+                return text
+                        
 
-async def get_txt_text(url_path):
+async def get_txt_text(url_path, platform='discord'):
     async with aiohttp.ClientSession() as session:
-        async with session.get(url_path) as response:
-            f = await response.read()
-            return f.decode("utf-8")        
+        if platform == 'slack':
+            async with session.get(url_path, headers={"Authorization": f"Bearer {os.environ.get('SLACK_BOT_TOKEN')}"}) as response:
+                response.raise_for_status()
+                data = await response.read()
+                return data.decode('utf-8')  
+        else:
+            async with session.get(url_path) as response:
+                response.raise_for_status()
+                data = await response.read()
+                return data.decode('utf-8')  
         
 async def get_image_data(url_path, platform='discord'):
     async with aiohttp.ClientSession() as session:
@@ -91,9 +109,9 @@ async def process_layer(bot_info: UserInfo, message_event: MessageEvent):
         message = event_context['previous_messages'][j]
         for i in range(0, len(message.files)):
             if "pdf" in message.files[i].file_type:
-                message.files[i].file_data = await get_pdf_text(message.files[i].url)
+                message.files[i].file_data = await get_pdf_text(message.files[i].url, bot_info.platform)
             elif "txt" in message.files[i].file_type:
-                message.files[i].file_data = await get_txt_text(message.files[i].url)
+                message.files[i].file_data = await get_txt_text(message.files[i].url, bot_info.platform)
             elif "image" in message.files[i].file_type:
                 file_data = await get_image_data(message.files[i].url, bot_info.platform)
                 # Get OCR Data for Images
@@ -103,9 +121,9 @@ async def process_layer(bot_info: UserInfo, message_event: MessageEvent):
     # Get File and Image Data for Current Message
     for file in message_event.files:
         if "pdf" in file.file_type:
-            file.file_data = await get_pdf_text(file.url)
+            file.file_data = await get_pdf_text(file.url, bot_info.platform)
         elif "txt" in file.file_type:
-            file.file_data = await get_txt_text(file.url)
+            file.file_data = await get_txt_text(file.url, bot_info.platform)
         elif "image" in file.file_type:
             file_data = await get_image_data(file.url, bot_info.platform)
             # Get OCR Data for Images

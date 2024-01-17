@@ -58,7 +58,7 @@ async def process_layer(bot_info: UserInfo, message_event: MessageEvent, event_c
         for file in message_event.files:
             if 'image' in file.file_type:
                 prompt += f"*** Image Attached containing text: {file.ocr_text} and described as: {file.summary} ***\n"
-            elif file.file_type == "pdf" or file.file_type == "txt":
+            elif 'pdf' in file.file_type or 'text' in file.file_type:
                 prompt += f"*** Document Attached summarized as: {file.summary} ***\n"    
 
     # Remove the bot's name from the prompt

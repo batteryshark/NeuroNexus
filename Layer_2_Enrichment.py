@@ -56,7 +56,7 @@ async def create_message_transcript(previous_messages:list[MessageEvent]) -> str
             for file in previous_message.files:
                 if 'image' in file.file_type:
                     transcript += f"*** Image Attached containing text: {file.ocr_text} and described as: {file.summary} ***\n"
-                elif file.file_type == "pdf" or file.file_type == "txt":
+                elif 'pdf' in file.file_type or 'text' in file.file_type:
                     transcript += f"*** Document Attached summarized as: {file.summary} ***\n"
       
         reactions = previous_message.reactions
@@ -81,14 +81,14 @@ async def process_layer(bot_info: UserInfo, message_event: MessageEvent, event_c
     for file in message_event.files:
         if 'image' in file.file_type:
             file.summary = await process_images_for_vision(bot_info, file)
-        elif "pdf" in file.file_type or "txt" in file.file_type:
+        elif "pdf" in file.file_type or "text" in file.file_type:
             file.summary = await get_summary_of_text_files(bot_info, file)
 
     for message in event_context['previous_messages']:
         for file in message.files:
             if 'image' in file.file_type:
                 file.summary = await process_images_for_vision(bot_info, file)
-            elif "pdf" in file.file_type or "txt" in file.file_type:
+            elif "pdf" in file.file_type or "text" in file.file_type:
                 file.summary = await get_summary_of_text_files(bot_info, file)
 
     # Invote Lexicon Enrichment
