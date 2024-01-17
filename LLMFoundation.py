@@ -1,3 +1,4 @@
+import os
 from langchain_community.llms import Ollama
 from openai import OpenAI
 from langchain.chat_models import ChatOpenAI
@@ -20,7 +21,8 @@ DEFAULT_SYSTEM_MESSAGE = "You are a helpful AI Assistant"
 
 local_llm = Ollama(base_url=LOCAL_LLM_HOST,model=LOCAL_LLM_MODEL,system=DEFAULT_SYSTEM_MESSAGE)
 local_llm_vision = Ollama(base_url=LOCAL_LLM_HOST,model=LOCAL_LLM_VISION_MODEL,temperature=0.2,top_p=0.7,num_ctx=2048)
-openai_llm = OpenAI()
+if os.getenv("OPENAI_API_KEY"):
+    openai_llm = OpenAI()
 
 async def describe_image_gpt4v(encoded_image):
     prompt = "Describe the image in comprehensive detail."
@@ -43,7 +45,7 @@ async def describe_image_llava(encoded_image):
     llm_with_image_context = local_llm_vision.bind(images=[encoded_image])
     return await llm_with_image_context.ainvoke(llava_prompt)    
 
-def text_ask_openai(prompt, temperature=None):
+async def text_ask_openai(prompt, temperature=None):
     oai = ChatOpenAI(model='gpt-4-1106-preview',temperature=temperature)
     messages = [
         SystemMessage(
