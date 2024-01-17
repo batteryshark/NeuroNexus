@@ -11,7 +11,7 @@ This is a quick framework I've scaffolded together to support a Slack and/or Dis
 - Supports conversation chains and enabling historical context to LLMs
 - Supports notes about conversation participants, allowing the llm to tailor output to the individuals/teams role.
 - Supports LLM backends such as OpenAI/langchain/Ollama/etc.
-- Supports Vision models (e.g. llava) with built-in cache
+- Supports Vision models (e.g. llava and gpt4vision) with built-in cache
 
 ## How to Set up a Bot
 
@@ -50,8 +50,6 @@ To continue a conversation with the bot, simply reply to the bot's message, or, 
 
 
 ## TODO
-
 - Reaction feedback support
 - Interactive elements (e.g. block-kit, discord.ui) to enrich responses
-- GPT4 Vision Support
 - Manual specification of a separate conversation/thread id to give the bot additional grounding.
