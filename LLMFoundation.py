@@ -20,7 +20,7 @@ Save the kittens.
 DEFAULT_SYSTEM_MESSAGE = "You are a helpful AI Assistant"
 
 local_llm = Ollama(base_url=LOCAL_LLM_HOST,model=LOCAL_LLM_MODEL,system=DEFAULT_SYSTEM_MESSAGE)
-local_llm_vision = Ollama(base_url=LOCAL_LLM_HOST,model=LOCAL_LLM_VISION_MODEL,temperature=0.2,top_p=0.7,num_ctx=2048)
+local_llm_vision = Ollama(base_url=LOCAL_LLM_HOST,model=LOCAL_LLM_VISION_MODEL,temperature=0.2,num_ctx=2048)
 if os.getenv("OPENAI_API_KEY"):
     openai_llm = OpenAI()
 
